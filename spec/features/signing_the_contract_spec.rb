@@ -42,7 +42,7 @@ RSpec.feature 'Validating Sign ups', :type => :feature do
     within('#new-contract') do
       fill_in 'Name', with: 'Meredith Grey'
       fill_in 'Born On', with: 'May 13, 1984'
-      check('I have read the Terms of Service')
+      check('I agree to the terms of service')
       click_button 'Sign Contract'
     end
     expect(page).to have_text('Thanks for signing, ' + 'Meredith')

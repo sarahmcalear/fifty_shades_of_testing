@@ -5,18 +5,40 @@
   <input id="born-on" type="date" name="born-on">
   <label for="terms-of-service">I agree to the terms of service</label>
   <input id="terms-of-service" type="checkbox" name="terms-of-service">
-  <span id="warning-terms" class="hidden error">You must check the terms of service.</span>
+  <span id="warning-terms" class="hidden error"></span>
+  Thanks for signing, Meredith
   <button>Sign Contract</button>
 </form>
 
 <script type="text/javascript">
 
-    $('#new-contract').on('submit' ,function(e){
+  $('#new-contract').on('submit' ,function(e){
     e.preventDefault();
+
+    var $fields = $("input[type='text'], input[type='date']" );
+    var $emptyFields = $fields.filter(function() {
+
+        // remove the $.trim if whitespace is counted as filled
+        return $.trim(this.value) === "";
+    });
     var contractSigned = $('#terms-of-service').is(':checked');
+
     if (!contractSigned) {
       $('#warning-terms').removeClass('hidden');
+      $('#warning-terms').text("You must check the terms of service.");
+      $('input[type="checkbox"]').on('change', function(){
+        $('#warning-terms').text('');
+      });
     }
-  })
+    if ($emptyFields.length > 0) {
+      $('#warning-terms').removeClass('hidden');
+      $('#warning-terms').text("Fields can't be blank");
+    }
+    if (($emptyFields.length == 0) && contractSigned) {
+      window.location.href('contracts/new');
+
+    }
+    // $(body).text('Thanks for signing, ' + 'Meredith');
+  });
 
 </script>
